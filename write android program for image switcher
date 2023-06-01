@@ -1,0 +1,68 @@
+XML
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageSwitcher
+        android:id="@+id/imageSwitcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:onClick="onImageSwitcherClick" />
+
+</RelativeLayout>
+
+JAVA
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private ImageSwitcher imageSwitcher;
+    private int[] imageResources = {R.drawable.iron, R.drawable.admin, R.drawable.index};
+    private int currentIndex = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        imageSwitcher = findViewById(R.id.imageSwitcher);
+        imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView imageView = new ImageView(getApplicationContext());
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                return imageView;
+            }
+        });
+
+        imageSwitcher.setOnClickListener(this);
+        updateImage();
+    }
+
+    @Override
+    public void onClick(View v) {
+        currentIndex++;
+        if (currentIndex >= imageResources.length) {
+            currentIndex = 0;
+        }
+        updateImage();
+    }
+
+    private void updateImage() {
+        imageSwitcher.setImageResource(imageResources[currentIndex]);
+        Toast.makeText(this, "Image " + (currentIndex + 1), Toast.LENGTH_SHORT).show();
+    }
+}
+
+paste 3 images in drawable folder and replace name of images in .java file
