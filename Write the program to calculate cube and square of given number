@@ -1,0 +1,93 @@
+XML
+     ?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/numberEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter a number"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/calculateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calculate" />
+
+    <TextView
+        android:id="@+id/squareTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingTop="16dp" />
+
+    <TextView
+        android:id="@+id/cubeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingTop="8dp" />
+
+</LinearLayout>
+ 
+ JAVA
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private EditText numberEditText;
+    private Button calculateButton;
+    private TextView squareTextView, cubeTextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        numberEditText = findViewById(R.id.numberEditText);
+        calculateButton = findViewById(R.id.calculateButton);
+        squareTextView = findViewById(R.id.squareTextView);
+        cubeTextView = findViewById(R.id.cubeTextView);
+
+        calculateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String input = numberEditText.getText().toString().trim();
+
+                if (!input.isEmpty()) {
+                    int number = Integer.parseInt(input);
+                    int square = calculateSquare(number);
+                    int cube = calculateCube(number);
+
+                    squareTextView.setText("Square: " + square);
+                    cubeTextView.setText("Cube: " + cube);
+                } else {
+                    squareTextView.setText("");
+                    cubeTextView.setText("");
+                }
+            }
+        });
+    }
+
+    private int calculateSquare(int number) {
+        return number * number;
+    }
+
+    private int calculateCube(int number) {
+        return number * number * number;
+    }
+} 
